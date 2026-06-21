@@ -8,16 +8,24 @@ class GMBSIM_Loader
 {
     public static function init()
     {
-        require_once GMBSIM_PATH . 'admin/admin.php';
-        require_once GMBSIM_PATH . 'api/irancell-api.php';
-        require_once GMBSIM_PATH . 'includes/shortcodes.php';
+        // Installer
+        require_once GMBSIM_PATH . 'includes/installer.php';
 
-        add_action('plugins_loaded', [__CLASS__, 'loaded']);
+        // Admin
+        require_once GMBSIM_PATH . 'admin/admin.php';
+
+        // API
+        require_once GMBSIM_PATH . 'api/irancell-api.php';
+
+        // Frontend
+        require_once GMBSIM_PATH . 'includes/shortcodes.php';
+        require_once GMBSIM_PATH . 'includes/ajax.php';
+
+        add_action('plugins_loaded', array(__CLASS__, 'loaded'));
     }
 
     public static function loaded()
     {
-        // در نسخه‌های بعدی اینجا کدهای راه‌اندازی اجرا می‌شوند.
+
     }
 }
-require_once GMBSIM_PATH.'includes/ajax.php';

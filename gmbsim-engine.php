@@ -23,6 +23,7 @@ define('GMBSIM_URL', plugin_dir_url(__FILE__));
 require_once GMBSIM_PATH . 'includes/loader.php';
 
 GMBSIM_Loader::init();
+register_activation_hook(__FILE__, 'gmbsim_install');
 add_action('wp_enqueue_scripts', function () {
 
     wp_enqueue_script(

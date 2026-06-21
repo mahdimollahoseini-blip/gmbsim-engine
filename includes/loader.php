@@ -8,9 +8,7 @@ class GMBSIM_Loader
 {
     public static function init()
     {
-        // Installer
-        require_once GMBSIM_PATH . 'includes/installer.php';
-
+        
         // Admin
         require_once GMBSIM_PATH . 'admin/admin.php';
 

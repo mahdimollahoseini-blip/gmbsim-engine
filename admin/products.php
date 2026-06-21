@@ -4,69 +4,104 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function gmbsim_default_products()
-{
-    return array(
-
-        array(
-            'title'            => 'دائمی پایه',
-            'product_id'       => 314,
-            'channel'          => 'eShop',
-            'fixed_profit'     => 50000,
-            'percent_profit'   => 0,
-            'active'           => 1
-        )
-
-    );
-}
-
 function gmbsim_products_page()
 {
-?>
-<div class="wrap">
+    global $wpdb;
 
-    <h1>دسته‌بندی محصولات ایرانسل</h1>
+    $table = $wpdb->prefix . 'gmbsim_products';
 
-    <table class="widefat striped">
+    $products = $wpdb->get_results(
+        "SELECT * FROM {$table} ORDER BY id ASC",
+        ARRAY_A
+    );
 
-        <thead>
+    ?>
 
-        <tr>
+    <div class="wrap">
 
-            <th>نام</th>
-            <th>Product ID</th>
-            <th>Channel</th>
-            <th>سود ثابت</th>
-            <th>سود درصدی</th>
+        <h1>دسته‌بندی محصولات ایرانسل</h1>
 
-        </tr>
+        <p>
+            در نسخه‌های بعدی امکان افزودن، ویرایش و حذف دسته‌ها اضافه خواهد شد.
+        </p>
 
-        </thead>
+        <table class="widefat striped">
 
-        <tbody>
+            <thead>
 
-        <?php foreach (gmbsim_default_products() as $product) : ?>
+                <tr>
 
-            <tr>
+                    <th>ID</th>
 
-                <td><?php echo esc_html($product['title']); ?></td>
+                    <th>عنوان</th>
 
-                <td><?php echo esc_html($product['product_id']); ?></td>
+                    <th>Product ID</th>
 
-                <td><?php echo esc_html($product['channel']); ?></td>
+                    <th>Channel</th>
 
-                <td><?php echo esc_html($product['fixed_profit']); ?></td>
+                    <th>سود ثابت</th>
 
-                <td><?php echo esc_html($product['percent_profit']); ?></td>
+                    <th>سود درصدی</th>
 
-            </tr>
+                    <th>وضعیت</th>
 
-        <?php endforeach; ?>
+                </tr>
 
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
 
-</div>
-<?php
+            <?php if (!empty($products)) : ?>
+
+                <?php foreach ($products as $product) : ?>
+
+                    <tr>
+
+                        <td><?php echo esc_html($product['id']); ?></td>
+
+                        <td><?php echo esc_html($product['title']); ?></td>
+
+                        <td><?php echo esc_html($product['product_id']); ?></td>
+
+                        <td><?php echo esc_html($product['channel']); ?></td>
+
+                        <td><?php echo number_format($product['fixed_profit']); ?></td>
+
+                        <td><?php echo esc_html($product['percent_profit']); ?>%</td>
+
+                        <td>
+
+                            <?php
+                            echo $product['active']
+                                ? '<span style="color:green;font-weight:bold;">فعال</span>'
+                                : '<span style="color:red;font-weight:bold;">غیرفعال</span>';
+                            ?>
+
+                        </td>
+
+                    </tr>
+
+                <?php endforeach; ?>
+
+            <?php else : ?>
+
+                <tr>
+
+                    <td colspan="7">
+
+                        هیچ دسته‌ای ثبت نشده است.
+
+                    </td>
+
+                </tr>
+
+            <?php endif; ?>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <?php
 }
